@@ -1,0 +1,33 @@
+server:
+  port: 9527
+  
+                
+  
+spring:
+  application:
+    name: microservicecloud-zuul-gateway
+    
+eureka:
+  client:   #将客户端注册进入eureka的客户端
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka,http://eureka7003.com:7003/eureka
+  instance:
+    instance-id: gateway-9527.com
+    prefer-ip-address: true
+    
+#zuul网关映射    
+zuul:
+#忽略源地址访问
+  ignored-services: microservicecloud-dept
+  #ignored-services: microservicecloud-dept 如果隐藏多个微服务的真实名称  那么就将后面 "*"
+  #在每个网关的访问的时候 前面都需要加上/zhs localhost：9527/zhs/mydept/dept/get/1
+  prefix: /zhs
+  routes:
+    mydept.serviceId: microservicecloud-dept
+    mydept.path: /mydept/**
+    
+info:
+  app.name: zhs-microservicecloud
+  company.name: www.zhouhuasheng.cn
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$
